@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -32,12 +33,17 @@
             overflow-y: auto;
             padding: 40px;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         section.active {
             display: block;
             opacity: 1;
+            transform: translateY(0);
+        }
+
+        section.leaving {
+            transform: translateY(20px);
         }
 
         nav {
@@ -151,21 +157,33 @@
             height: 100vh;
         }
 
+        #home::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 0;
+        }
+
         #home canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
-            opacity: 0.6;
+            z-index: 1;
+            opacity: 0.7;
         }
 
         #home .content {
-            z-index: 1;
+            z-index: 2;
             position: relative;
-            top: 40%;
+            top: 30%;
             transform: translateY(-50%);
+            padding: 0 20px;
         }
 
         #home h1 {
@@ -175,7 +193,13 @@
             color: #FFFFFF;
             letter-spacing: 1px;
             margin-bottom: 20px;
-            text-shadow: 0 2px 10px rgba(102,252,241,0.5);
+            text-shadow: 0 2px 10px rgba(102,252,241,0.5), 0 0 20px rgba(255,255,255,0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #66FCF1; }
+            to { text-shadow: 0 0 20px #45A29E; }
         }
 
         #typed-text {
@@ -183,6 +207,15 @@
             font-weight: 400;
             color: #C5C6C7;
             margin-bottom: 40px;
+            animation: fadeInUp 1s ease;
+        }
+
+        #home .subtitle {
+            font-size: 18px;
+            color: #C5C6C7;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            animation: fadeInUp 1.5s ease;
         }
 
         .cta {
@@ -193,6 +226,7 @@
             font-weight: 600;
             transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
             margin: 0 10px;
+            animation: bounceIn 1s ease;
         }
 
         .primary {
@@ -210,46 +244,115 @@
             box-shadow: 0 6px 20px rgba(102, 252, 241, 0.8);
         }
 
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
         #about {
             background: linear-gradient(to right, #1F2833, #45A29E);
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             padding: 0;
+            align-items: center;
+            justify-content: center;
         }
 
-        #about .image {
-            width: 50%;
-            height: 100%;
+        #about .hero-image {
+            width: 100%;
+            height: 50vh;
             background: url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #about .hero-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(11,12,16,0.8));
+            z-index: 1;
         }
 
         #about .text {
-            width: 50%;
-            padding: 80px;
+            padding: 60px 40px;
             color: #FFFFFF;
             background: rgba(11,12,16,0.8);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
+            max-width: 1200px;
+            width: 100%;
+            border-radius: 20px;
+            margin: -100px 0 0;
+            z-index: 2;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         #about h2 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 20px;
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 30px;
             color: #66FCF1;
+            text-shadow: 0 2px 10px rgba(102,252,241,0.5);
+            animation: slideInLeft 1s ease;
         }
 
         #about p {
             font-size: 18px;
             line-height: 1.8;
-            max-width: 600px;
             margin-bottom: 20px;
             color: #C5C6C7;
+            animation: fadeIn 1.5s ease;
+        }
+
+        #about .achievements {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 40px 0;
+            justify-content: center;
+        }
+
+        #about .achievement {
+            background: rgba(69,162,158,0.3);
+            padding: 20px;
+            border-radius: 15px;
+            width: 280px;
+            text-align: center;
+            transition: transform 0.4s, box-shadow 0.4s;
+            animation: zoomIn 1s ease;
+        }
+
+        #about .achievement:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 20px rgba(102,252,241,0.7);
+        }
+
+        #about .achievement i {
+            font-size: 40px;
+            color: #66FCF1;
+            margin-bottom: 15px;
+        }
+
+        #about .achievement h3 {
+            font-size: 22px;
+            color: #FFFFFF;
         }
 
         .timeline {
-            margin-top: 40px;
+            margin-top: 60px;
             position: relative;
+            max-width: 800px;
+            margin: 60px auto;
         }
 
         .timeline::before {
@@ -257,84 +360,126 @@
             position: absolute;
             top: 0;
             left: 50%;
-            width: 2px;
+            width: 4px;
             height: 100%;
-            background: #66FCF1;
+            background: linear-gradient(to bottom, #66FCF1, #45A29E);
+            animation: grow 2s ease-in-out;
+        }
+
+        @keyframes grow {
+            from { height: 0; }
+            to { height: 100%; }
         }
 
         .timeline-item {
             position: relative;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
             width: 50%;
-            padding-right: 20px;
+            padding-right: 40px;
             text-align: right;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         .timeline-item:nth-child(even) {
             left: 50%;
             text-align: left;
-            padding-left: 20px;
+            padding-left: 40px;
             padding-right: 0;
+            transform: translateX(50px);
         }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            top: 10px;
-            right: -11px;
-            width: 20px;
-            height: 20px;
+            top: 20px;
+            right: -22px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: #45A29E;
-            border: 3px solid #66FCF1;
+            border: 5px solid #66FCF1;
+            transition: transform 0.3s;
+        }
+
+        .timeline-item:hover::before {
+            transform: scale(1.2);
         }
 
         .timeline-item:nth-child(even)::before {
-            left: -11px;
+            left: -22px;
             right: auto;
+        }
+
+        .timeline-item h3 {
+            color: #66FCF1;
+            font-size: 24px;
+        }
+
+        .timeline-item p {
+            color: #C5C6C7;
         }
 
         .facts {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 40px;
+            gap: 30px;
+            margin-top: 60px;
             justify-content: center;
         }
 
         .fact-box {
-            width: 160px;
-            height: 100px;
-            background: rgba(69,162,158,0.2);
-            border-radius: 12px;
+            width: 200px;
+            height: 150px;
+            background: linear-gradient(135deg, rgba(69,162,158,0.4), rgba(102,252,241,0.2));
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 10px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 20px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .fact-box:hover {
-            transform: scale(1.15) rotate(5deg);
-            box-shadow: 0 6px 20px rgba(102,252,241,0.6);
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 10px 30px rgba(102,252,241,0.8);
         }
 
         .fact-box i {
-            font-size: 24px;
+            font-size: 36px;
             color: #66FCF1;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .fact-box span {
-            font-size: 24px;
-            font-weight: 700;
+            font-size: 36px;
+            font-weight: 800;
             color: #FFFFFF;
         }
 
         .fact-box label {
-            font-size: 14px;
+            font-size: 16px;
             color: #C5C6C7;
         }
 
@@ -429,12 +574,19 @@
             padding: 30px;
             border-radius: 20px;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .bar-graph.visible {
+            opacity: 1;
         }
 
         .bar {
             width: 50px;
             background: linear-gradient(to top, #66FCF1, #45A29E);
             position: relative;
+            height: 0;
             transition: height 2s ease-in-out;
             border-radius: 10px 10px 0 0;
             box-shadow: 0 4px 10px rgba(69,162,158,0.5);
@@ -595,6 +747,25 @@
 
         #projects {
             background: linear-gradient(135deg, #1F2833, #0B0C10);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #projects::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(102,252,241,0.1), transparent);
+            animation: ripple 5s infinite;
+            z-index: 0;
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
         }
 
         #projects h2 {
@@ -603,58 +774,100 @@
             font-weight: 700;
             margin-bottom: 40px;
             color: #66FCF1;
+            position: relative;
+            z-index: 1;
         }
 
         .proj-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 40px;
             max-width: 1200px;
             width: 100%;
+            position: relative;
+            z-index: 1;
         }
 
         .proj-card {
             position: relative;
             overflow: hidden;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            transition: transform 0.3s;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            perspective: 1000px;
         }
 
         .proj-card:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) rotateY(10deg);
+            box-shadow: 0 20px 40px rgba(102,252,241,0.5);
         }
 
-        .proj-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            transition: transform 0.5s;
+        .proj-card .front {
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
         }
 
-        .proj-card:hover img {
-            transform: scale(1.3) rotate(5deg);
+        .proj-card:hover .front {
+            transform: rotateY(180deg);
         }
 
-        .proj-overlay {
+        .proj-card .back {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(102, 252, 241, 0.8);
+            background: rgba(102,252,241,0.9);
+            color: #0B0C10;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s;
+            padding: 20px;
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
         }
 
-        .proj-card:hover .proj-overlay {
-            opacity: 1;
+        .proj-card:hover .back {
+            transform: rotateY(0deg);
         }
 
-        .proj-overlay button {
+        .proj-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            backface-visibility: hidden;
+        }
+
+        .proj-card p {
+            padding: 15px;
+            text-align: center;
+            color: #FFFFFF;
+            font-weight: bold;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            margin: 0;
+        }
+
+        .proj-card .back h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .proj-card .back p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #0B0C10;
+            background: transparent;
+            position: static;
+        }
+
+        .proj-card .back button {
             padding: 12px 25px;
             background: #0B0C10;
             color: #66FCF1;
@@ -664,81 +877,100 @@
             transition: transform 0.3s, background 0.3s;
         }
 
-        .proj-overlay button:hover {
+        .proj-card .back button:hover {
             transform: scale(1.2);
             background: #45A29E;
         }
 
-        .proj-card p {
-            padding: 15px;
-            text-align: center;
-            color: #FFFFFF;
-            font-weight: bold;
-        }
-
         #contact {
-            background: #0B0C10;
+            background: linear-gradient(to bottom, #0B0C10, #1F2833);
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 100px; /* To avoid overlap with footer */
         }
 
         #contact h2 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 36px;
-            font-weight: 700;
+            font-size: 48px;
+            font-weight: 800;
             margin-bottom: 40px;
             color: #66FCF1;
+            text-shadow: 0 2px 10px rgba(102,252,241,0.5);
         }
 
-        form {
-            max-width: 600px;
+        #contact form {
+            max-width: 700px;
             width: 100%;
+            background: rgba(31,40,51,0.8);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease;
         }
 
-        input, textarea {
+        #contact input, #contact textarea {
             width: 100%;
             height: 50px;
             margin-bottom: 20px;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 10px;
             border: none;
             font-size: 16px;
             background: #1F2833;
             color: #C5C6C7;
-            transition: background 0.3s, transform 0.3s;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
         }
 
-        input:focus, textarea:focus {
+        #contact input:focus, #contact textarea:focus {
             background: #45A29E;
             transform: scale(1.02);
+            box-shadow: 0 0 10px rgba(102,252,241,0.5);
         }
 
-        textarea {
+        #contact textarea {
             height: 150px;
         }
 
-        button {
+        #contact button {
             padding: 14px 30px;
             background: #66FCF1;
             color: #0B0C10;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: background 0.3s, transform 0.3s;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            width: 100%;
         }
 
-        button:hover {
+        #contact button:hover {
             background: #45A29E;
             transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(69,162,158,0.8);
         }
 
         .direct-info {
-            margin-top: 20px;
+            margin-top: 40px;
             text-align: center;
             color: #66FCF1;
+            animation: fadeIn 2s ease;
         }
 
         .direct-info p {
-            margin: 10px 0;
+            margin: 15px 0;
+            font-size: 18px;
+        }
+
+        .direct-info a {
+            color: #66FCF1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .direct-info a:hover {
+            color: #45A29E;
         }
 
         footer {
@@ -748,6 +980,7 @@
             text-align: center;
             color: #C5C6C7;
             font-size: 14px;
+            z-index: 1;
         }
 
         footer a {
@@ -771,31 +1004,66 @@
             height: 100%;
             overflow: auto;
             background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.5s ease;
         }
 
         .modal-content {
             background-color: #1F2833;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #66FCF1;
-            width: 80%;
-            max-width: 800px;
-            border-radius: 15px;
+            margin: 5% auto;
+            padding: 30px;
+            border: 2px solid #66FCF1;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 20px;
             color: #FFFFFF;
+            position: relative;
+            animation: zoomIn 0.5s ease;
         }
 
         .close {
             color: #66FCF1;
-            float: right;
-            font-size: 28px;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 36px;
             font-weight: bold;
+            transition: color 0.3s;
         }
 
         .close:hover,
         .close:focus {
             color: #45A29E;
-            text-decoration: none;
             cursor: pointer;
+        }
+
+        .modal-content h2 {
+            color: #66FCF1;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            margin-bottom: 20px;
+        }
+
+        .modal-content img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-content .tech-stack span {
+            background: #45A29E;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #0B0C10;
         }
 
         @media (max-width: 1024px) {
@@ -813,32 +1081,25 @@
                 font-size: 48px;
             }
 
-            #about {
-                flex-direction: column;
-            }
-
-            #about .image, #about .text {
-                width: 100%;
-                height: auto;
-            }
-
             #about .text {
-                padding: 40px;
+                padding: 40px 20px;
+                margin: -50px 20px 0;
             }
 
             .timeline::before {
-                left: 20px;
+                left: 30px;
             }
 
             .timeline-item {
-                width: 100%;
-                padding-left: 50px;
+                width: calc(100% - 60px);
+                padding-left: 60px;
                 padding-right: 0;
                 text-align: left;
             }
 
             .timeline-item:nth-child(even) {
                 left: 0;
+                padding-left: 60px;
             }
 
             .timeline-item::before {
@@ -855,12 +1116,16 @@
             .bar {
                 width: 80%;
                 height: 20px !important;
-                margin: 20px 0;
+                margin: 40px 0;
                 transform: rotate(-90deg);
             }
 
             .bar span, .bar label {
                 transform: rotate(90deg);
+            }
+
+            .proj-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -869,6 +1134,39 @@
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+        }
+
+        /* Additional functions: Dark mode toggle */
+        body.dark-mode {
+            background: #0B0C10;
+        }
+
+        /* Theme switcher */
+        #theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #66FCF1;
+            color: #0B0C10;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, transform 0.3s;
+            z-index: 1000;
+        }
+
+        #theme-toggle:hover {
+            transform: scale(1.2);
+            background: #45A29E;
+        }
+
+        #theme-toggle i {
+            font-size: 24px;
         }
     </style>
 </head>
@@ -893,34 +1191,52 @@
         <div class="content" data-aos="fade-up">
             <h1>Hi, I’m Pranjal Shrivastav</h1>
             <div id="typed-text"></div>
+            <p class="subtitle">A passionate freelancer dedicated to crafting exceptional digital experiences. From stunning web designs to captivating graphics and seamless edits, I bring ideas to life with creativity and precision.</p>
             <a href="#projects" class="cta primary">View Projects</a>
             <a href="#contact" class="cta secondary">Contact Me</a>
         </div>
     </section>
 
     <section id="about">
-        <div class="image" data-aos="zoom-in"></div>
-        <div class="text" data-aos="fade-left">
+        <div class="hero-image" data-aos="zoom-in"></div>
+        <div class="text" data-aos="fade-up">
             <h2>About Me</h2>
-            <p>I am Pranjal Shrivastav, a passionate freelancer specializing in web development, graphic design, and editing. With over 5 years of experience, I have worked on numerous projects that have helped businesses establish a strong online presence.</p>
-            <p>My achievements include securing 1st place in the Cyber Security Olympiad, 6th place in the HTML & CSS Expertise Quiz in India, and 7th place in the Delhi Graphic Designing Olympiad. These recognitions have sharpened my skills and motivated me to excel in diverse fields.</p>
-            <p>In addition to my professional work, I enjoy exploring emerging technologies, contributing to open-source projects, and continuously learning to deliver top-notch solutions to my clients.</p>
+            <p>Hello! I'm Pranjal Shrivastav, a versatile freelancer with a passion for technology and design. With over 5 years of experience, I've honed my skills in web development, graphic design, video editing, and cyber security to deliver high-impact solutions that drive success for my clients.</p>
+            <p>My journey began with a fascination for code and creativity, leading me to win prestigious awards like 1st place in the Cyber Security Olympiad, 6th in the HTML & CSS Expertise Quiz across India, and 7th in the Delhi Graphic Designing Olympiad. These achievements have fueled my commitment to excellence and innovation.</p>
+            <p>Beyond work, I'm an avid learner, exploring AI, contributing to open-source, and staying ahead of trends to provide cutting-edge services. Whether it's building responsive websites or designing compelling visuals, I thrive on turning visions into reality.</p>
+            <div class="achievements" data-aos="fade-up">
+                <div class="achievement">
+                    <i class="fas fa-trophy"></i>
+                    <h3>1st Place Cyber Security Olympiad</h3>
+                    <p>Mastered security challenges and emerged victorious.</p>
+                </div>
+                <div class="achievement">
+                    <i class="fas fa-medal"></i>
+                    <h3>6th Place HTML & CSS Quiz</h3>
+                    <p>Nationwide recognition for web expertise.</p>
+                </div>
+                <div class="achievement">
+                    <i class="fas fa-award"></i>
+                    <h3>7th Place Graphic Design Olympiad</h3>
+                    <p>Excelled in creative design competitions.</p>
+                </div>
+            </div>
             <div class="timeline" data-aos="fade-up">
                 <div class="timeline-item">
                     <h3>2021</h3>
-                    <p>Launched first major project and won Cyber Security Olympiad.</p>
+                    <p>Launched my first major project and secured 1st place in the Cyber Security Olympiad, marking the start of my professional journey.</p>
                 </div>
                 <div class="timeline-item">
                     <h3>2022</h3>
-                    <p>Expanded skills in UI/UX and graphic design.</p>
+                    <p>Expanded into UI/UX and graphic design, completing over 30 projects and building a strong foundation in creative technologies.</p>
                 </div>
                 <div class="timeline-item">
                     <h3>2023</h3>
-                    <p>Reached 50+ clients and placed in national quizzes.</p>
+                    <p>Reached 50+ clients, placed in national quizzes, and integrated advanced tools like React and Node.js into my workflow.</p>
                 </div>
                 <div class="timeline-item">
                     <h3>2024</h3>
-                    <p>Added AI integration and advanced web services.</p>
+                    <p>Introduced AI integrations and cyber security services, elevating client projects to new levels of innovation and safety.</p>
                 </div>
             </div>
             <div class="facts">
@@ -1125,49 +1441,111 @@
         <h2 data-aos="fade-down">Projects</h2>
         <div class="proj-grid">
             <div class="proj-card" data-aos="zoom-in-up">
-                <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 1">
-                <div class="proj-overlay"><button onclick="openModal('project1')">View Details</button></div>
-                <p>E-commerce Website for Fashion Brand</p>
+                <div class="front">
+                    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 1">
+                    <p>E-commerce Website for Fashion Brand</p>
+                </div>
+                <div class="back">
+                    <h3>E-commerce Website</h3>
+                    <p>Built a full-stack platform with React, Node.js, and MongoDB. Features user authentication, payment integration, and responsive design.</p>
+                    <div class="tech-stack">
+                        <span>React</span>
+                        <span>Node.js</span>
+                        <span>MongoDB</span>
+                    </div>
+                    <button onclick="openModal('project1')">View Details</button>
+                </div>
             </div>
             <div class="proj-card" data-aos="zoom-in-up" data-aos-delay="200">
-                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80" alt="Project 2">
-                <div class="proj-overlay"><button onclick="openModal('project2')">View Details</button></div>
-                <p>Corporate Portfolio Site</p>
+                <div class="front">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80" alt="Project 2">
+                    <p>Corporate Portfolio Site</p>
+                </div>
+                <div class="back">
+                    <h3>Corporate Portfolio</h3>
+                    <p>Modern site using HTML, CSS, JS, Bootstrap. SEO-optimized and mobile-friendly.</p>
+                    <div class="tech-stack">
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>Bootstrap</span>
+                    </div>
+                    <button onclick="openModal('project2')">View Details</button>
+                </div>
             </div>
             <div class="proj-card" data-aos="zoom-in-up" data-aos-delay="400">
-                <img src="https://images.unsplash.com/photo-1520085601670-ee14aa5fa3e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 3">
-                <div class="proj-overlay"><button onclick="openModal('project3')">View Details</button></div>
-                <p>Graphic Design Campaign for Startup</p>
+                <div class="front">
+                    <img src="https://images.unsplash.com/photo-1520085601670-ee14aa5fa3e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 3">
+                    <p>Graphic Design Campaign for Startup</p>
+                </div>
+                <div class="back">
+                    <h3>Graphic Design Campaign</h3>
+                    <p>Created logos, banners, social graphics with Illustrator and Photoshop.</p>
+                    <div class="tech-stack">
+                        <span>Illustrator</span>
+                        <span>Photoshop</span>
+                    </div>
+                    <button onclick="openModal('project3')">View Details</button>
+                </div>
             </div>
             <div class="proj-card" data-aos="zoom-in-up" data-aos-delay="600">
-                <img src="https://images.unsplash.com/photo-1499951360447-b19be8a32766?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 4">
-                <div class="proj-overlay"><button onclick="openModal('project4')">View Details</button></div>
-                <p>Video Editing for Marketing Video</p>
+                <div class="front">
+                    <img src="https://images.unsplash.com/photo-1499951360447-b19be8a32766?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 4">
+                    <p>Video Editing for Marketing Video</p>
+                </div>
+                <div class="back">
+                    <h3>Video Editing</h3>
+                    <p>Edited videos with effects using Premiere Pro and After Effects.</p>
+                    <div class="tech-stack">
+                        <span>Premiere Pro</span>
+                        <span>After Effects</span>
+                    </div>
+                    <button onclick="openModal('project4')">View Details</button>
+                </div>
             </div>
             <div class="proj-card" data-aos="zoom-in-up" data-aos-delay="800">
-                <img src="https://images.unsplash.com/photo-1542744173-8e7f7175bb17?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" alt="Project 5">
-                <div class="proj-overlay"><button onclick="openModal('project5')">View Details</button></div>
-                <p>Custom CMS Development</p>
+                <div class="front">
+                    <img src="https://images.unsplash.com/photo-1542744173-8e7f7175bb17?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" alt="Project 5">
+                    <p>Custom CMS Development</p>
+                </div>
+                <div class="back">
+                    <h3>Custom CMS</h3>
+                    <p>Developed with WordPress and custom plugins for content management.</p>
+                    <div class="tech-stack">
+                        <span>WordPress</span>
+                        <span>PHP</span>
+                    </div>
+                    <button onclick="openModal('project5')">View Details</button>
+                </div>
             </div>
             <div class="proj-card" data-aos="zoom-in-up" data-aos-delay="1000">
-                <img src="https://images.unsplash.com/photo-1484417896044-5cabe7ebd05b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 6">
-                <div class="proj-overlay"><button onclick="openModal('project6')">View Details</button></div>
-                <p>Logo Design and Branding</p>
+                <div class="front">
+                    <img src="https://images.unsplash.com/photo-1484417896044-5cabe7ebd05b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 6">
+                    <p>Logo Design and Branding</p>
+                </div>
+                <div class="back">
+                    <h3>Logo & Branding</h3>
+                    <p>Designed logos and branding kits for consistency across media.</p>
+                    <div class="tech-stack">
+                        <span>Illustrator</span>
+                        <span>Photoshop</span>
+                    </div>
+                    <button onclick="openModal('project6')">View Details</button>
+                </div>
             </div>
         </div>
     </section>
 
     <section id="contact">
-        <h2 data-aos="fade-down">Contact Me</h2>
-        <form data-aos="fade-up">
-            <input type="text" placeholder="Name">
-            <input type="email" placeholder="Email">
-            <textarea placeholder="Message"></textarea>
+        <h2 data-aos="fade-down">Get in Touch</h2>
+        <form id="contact-form" data-aos="fade-up">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <textarea id="message" placeholder="Your Message" required></textarea>
             <button type="submit">Send Message</button>
         </form>
         <div class="direct-info" data-aos="fade-up" data-aos-delay="200">
-            <p>Email: pranjalshrivastav5@gmail.com</p>
-            <p>Phone: 8178565494</p>
+            <p>Email: <a href="mailto:pranjalshrivastav5@gmail.com">pranjalshrivastav5@gmail.com</a></p>
+            <p>Phone: <a href="tel:8178565494">8178565494</a></p>
         </div>
         <footer>
             &copy; 2025 Pranjal Shrivastav. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
@@ -1179,58 +1557,91 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal('project1')">&times;</span>
             <h2>E-commerce Website for Fashion Brand</h2>
-            <p>Detailed description: Built a full-stack e-commerce platform with React, Node.js, and MongoDB. Features include user authentication, payment integration, and responsive design.</p>
-            <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 1" style="width:100%;">
+            <p>Built a full-stack e-commerce platform with React, Node.js, and MongoDB. Features include user authentication, payment integration, and responsive design. This project enhanced the client's online sales by 40%.</p>
+            <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 1">
+            <div class="tech-stack">
+                <span>React</span>
+                <span>Node.js</span>
+                <span>MongoDB</span>
+                <span>Stripe</span>
+            </div>
         </div>
     </div>
     <div id="project2" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('project2')">&times;</span>
             <h2>Corporate Portfolio Site</h2>
-            <p>Detailed description: Designed and developed a modern portfolio for a corporate client using HTML, CSS, JS, and Bootstrap. Optimized for SEO and mobile.</p>
-            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80" alt="Project 2" style="width:100%;">
+            <p>Designed and developed a modern portfolio for a corporate client using HTML, CSS, JS, and Bootstrap. Optimized for SEO and mobile, resulting in increased traffic and leads.</p>
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80" alt="Project 2">
+            <div class="tech-stack">
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>JavaScript</span>
+                <span>Bootstrap</span>
+            </div>
         </div>
     </div>
     <div id="project3" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('project3')">&times;</span>
             <h2>Graphic Design Campaign for Startup</h2>
-            <p>Detailed description: Created branding materials including logos, banners, and social media graphics using Adobe Illustrator and Photoshop.</p>
-            <img src="https://images.unsplash.com/photo-1520085601670-ee14aa5fa3e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 3" style="width:100%;">
+            <p>Created branding materials including logos, banners, and social media graphics using Adobe Illustrator and Photoshop. Helped the startup establish a strong visual identity.</p>
+            <img src="https://images.unsplash.com/photo-1520085601670-ee14aa5fa3e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 3">
+            <div class="tech-stack">
+                <span>Illustrator</span>
+                <span>Photoshop</span>
+                <span>Figma</span>
+            </div>
         </div>
     </div>
     <div id="project4" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('project4')">&times;</span>
             <h2>Video Editing for Marketing Video</h2>
-            <p>Detailed description: Edited promotional videos with effects and transitions using Premiere Pro and After Effects.</p>
-            <img src="https://images.unsplash.com/photo-1499951360447-b19be8a32766?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 4" style="width:100%;">
+            <p>Edited promotional videos with effects and transitions using Premiere Pro and After Effects. The videos achieved high engagement on social media.</p>
+            <img src="https://images.unsplash.com/photo-1499951360447-b19be8a32766?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 4">
+            <div class="tech-stack">
+                <span>Premiere Pro</span>
+                <span>After Effects</span>
+            </div>
         </div>
     </div>
     <div id="project5" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('project5')">&times;</span>
             <h2>Custom CMS Development</h2>
-            <p>Detailed description: Developed a custom content management system with WordPress and custom plugins for easy content updates.</p>
-            <img src="https://images.unsplash.com/photo-1542744173-8e7f7175bb17?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" alt="Project 5" style="width:100%;">
+            <p>Developed a custom content management system with WordPress and custom plugins for easy content updates and management.</p>
+            <img src="https://images.unsplash.com/photo-1542744173-8e7f7175bb17?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" alt="Project 5">
+            <div class="tech-stack">
+                <span>WordPress</span>
+                <span>PHP</span>
+                <span>MySQL</span>
+            </div>
         </div>
     </div>
     <div id="project6" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('project6')">&times;</span>
             <h2>Logo Design and Branding</h2>
-            <p>Detailed description: Designed logos and complete branding kits for multiple clients, ensuring consistency across all media.</p>
-            <img src="https://images.unsplash.com/photo-1484417896044-5cabe7ebd05b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 6" style="width:100%;">
+            <p>Designed logos and complete branding kits for multiple clients, ensuring consistency across all media and platforms.</p>
+            <img src="https://images.unsplash.com/photo-1484417896044-5cabe7ebd05b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Project 6">
+            <div class="tech-stack">
+                <span>Illustrator</span>
+                <span>Photoshop</span>
+            </div>
         </div>
     </div>
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle"><i class="fas fa-moon"></i></button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script>
         // Initialize AOS
-        AOS.init({ duration: 1200, once: true });
+        AOS.init({ duration: 1200, once: false, mirror: true });
 
-        // Nav background on scroll - but since no page scroll, perhaps remove or keep for consistency
+        // Nav background on scroll
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             if (window.scrollY > 50) {
@@ -1247,30 +1658,53 @@
             navLinks.classList.toggle('open');
         });
 
-        // Section switching like pages
+        // Section switching
         const sections = document.querySelectorAll('section');
         let currentSection = document.getElementById('home');
+        let isTransitioning = false;
 
-        document.querySelectorAll('nav a').forEach(link => {
+        const switchSection = (targetSection) => {
+            if (isTransitioning || targetSection === currentSection) return;
+            isTransitioning = true;
+
+            document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
+            document.querySelector(`nav a[href="#${targetSection.id}"]`).classList.add('active');
+
+            currentSection.classList.add('leaving');
+            currentSection.style.opacity = 0;
+            setTimeout(() => {
+                currentSection.classList.remove('active', 'leaving');
+                targetSection.classList.add('active');
+                targetSection.style.opacity = 0;
+                setTimeout(() => {
+                    targetSection.style.opacity = 1;
+                    currentSection = targetSection;
+                    isTransitioning = false;
+                    // Trigger section-specific animations
+                    if (targetSection.id === 'growth') {
+                        targetSection.querySelector('.bar-graph').classList.add('visible');
+                        targetSection.querySelectorAll('.bar').forEach(bar => {
+                            bar.style.height = bar.style.getPropertyValue('--height');
+                        });
+                    } else if (targetSection.id === 'about') {
+                        targetSection.querySelectorAll('.timeline-item').forEach((item, index) => {
+                            setTimeout(() => item.classList.add('visible'), index * 300);
+                        });
+                    } else if (targetSection.id === 'skills') {
+                        targetSection.querySelectorAll('.progress-fill').forEach(fill => {
+                            fill.style.width = fill.style.getPropertyValue('--progress');
+                        });
+                    }
+                }, 50);
+            }, 500);
+        };
+
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const targetId = link.getAttribute('href').substring(1);
                 const targetSection = document.getElementById(targetId);
-                if (targetSection === currentSection) return;
-
-                document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-
-                currentSection.style.opacity = 0;
-                setTimeout(() => {
-                    currentSection.classList.remove('active');
-                    targetSection.classList.add('active');
-                    targetSection.style.opacity = 0;
-                    setTimeout(() => {
-                        targetSection.style.opacity = 1;
-                    }, 50);
-                    currentSection = targetSection;
-                }, 500);
+                switchSection(targetSection);
             });
         });
 
@@ -1280,14 +1714,14 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         let particlesArray = [];
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 150; i++) {  // Increased for more motion, but optimized
             particlesArray.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                radius: Math.random() * 5 + 1,
-                vx: Math.random() * 0.8 - 0.4,
-                vy: Math.random() * 0.8 - 0.4,
-                opacity: Math.random() * 0.5 + 0.4
+                radius: Math.random() * 3 + 1,
+                vx: Math.random() * 0.5 - 0.25,
+                vy: Math.random() * 0.5 - 0.25,
+                opacity: Math.random() * 0.4 + 0.3
             });
         }
         function animateParticles() {
@@ -1308,15 +1742,16 @@
 
         // Typed animation
         new Typed('#typed-text', {
-            strings: ['Freelancer', 'Web Developer', 'Graphic Designer', 'Editor', 'Cyber Security Expert'],
-            typeSpeed: 50,
-            backSpeed: 30,
-            loop: true
+            strings: ['Freelancer', 'Web Developer', 'Graphic Designer', 'Editor', 'Cyber Security Expert', 'UI/UX Specialist', 'AI Enthusiast'],
+            typeSpeed: 40,
+            backSpeed: 20,
+            loop: true,
+            smartBackspace: true
         });
 
-        // Counter animation for facts
+        // Counter animation
         const counters = document.querySelectorAll('.counter');
-        const countSpeed = 200;
+        const countSpeed = 100;
         counters.forEach(counter => {
             const updateCount = () => {
                 const target = +counter.getAttribute('data-target');
@@ -1324,26 +1759,12 @@
                 const increment = target / countSpeed;
                 if (count < target) {
                     counter.innerText = Math.ceil(count + increment);
-                    setTimeout(updateCount, 1);
+                    setTimeout(updateCount, 10);
                 } else {
                     counter.innerText = target;
                 }
             };
             updateCount();
-        });
-
-        // Progress and bar animation on section active
-        sections.forEach(sec => {
-            sec.addEventListener('transitionend', () => {
-                if (sec.classList.contains('active')) {
-                    sec.querySelectorAll('.progress-fill').forEach(fill => {
-                        fill.style.width = fill.style.getPropertyValue('--progress');
-                    });
-                    sec.querySelectorAll('.bar').forEach(bar => {
-                        bar.style.height = bar.style.getPropertyValue('--height');
-                    });
-                }
-            });
         });
 
         // Modal functions
@@ -1359,10 +1780,42 @@
             }
         };
 
-        // Form submission (demo alert)
-        document.querySelector('form').addEventListener('submit', (e) => {
+        // Form submission with EmailJS
+        // Note: Replace with your EmailJS service ID, template ID, and user ID
+        // Go to emailjs.com to set up (free tier available)
+        emailjs.init("YOUR_USER_ID_HERE");  // Replace with your EmailJS user ID
+
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Message sent successfully!');
+            const templateParams = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+            emailjs.send("YOUR_SERVICE_ID_HERE", "YOUR_TEMPLATE_ID_HERE", templateParams)
+                .then(function(response) {
+                    alert('Message sent successfully!');
+                    document.getElementById('contact-form').reset();
+                }, function(error) {
+                    alert('Failed to send message. Please try again.');
+                });
+        });
+
+        // Additional function: Theme toggle (dark/light mode)
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+
+        // Resize canvas on window resize for smoothness
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         });
     </script>
 </body>
