@@ -2,503 +2,437 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Pranjal Shrivastav — Freelance Web Developer • Graphic Designer • Editor</title>
-<meta name="description" content="Pranjal Shrivastav — Freelance Web Developer, Graphic Designer & Editor. 3+ years experience. Contact: pranjalshrivastav5@gmail.com • +91 8178565494" />
-<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pranjal Shrivastav — Web Developer • Graphic Designer • Editor</title>
+<meta name="description" content="Portfolio of Pranjal Shrivastav — Freelance Web Developer, Graphic Designer & Editor. 3+ years experience. Email: pranjalshrivastav5@gmail.com • Phone: +91 8178565494" />
 
+<!-- Lightweight, GPU-accelerated, Jekyll-safe styles -->
 <style>
   :root{
-    --bg-1: #0f1724;
-    --card: rgba(255,255,255,0.03);
-    --muted: #9aa6bb;
-    --accent-a: #60A5FA;
-    --accent-b: #6EE7B7;
-    --accent-c: #F472B6;
-    --glass: rgba(255,255,255,0.04);
-    --radius: 14px;
-    --maxw: 1200px;
-    --ff: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    --bg:#0b1220; --bg2:#0b1528; --card:#0f1c35; --ink:#e7eef9; --muted:#9fb0c8;
+    --a:#60a5fa; --b:#6ee7b7; --c:#f472b6; --d:#fcd34d;
+    --radius:16px; --max:1200px; --pad:22px;
   }
-
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
-    margin:0;
-    font-family:var(--ff);
-    background: linear-gradient(180deg,#071026 0%, #071a2e 50%, #081226 100%);
-    color:#e6eef8;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    display:flex;
-    justify-content:center;
-    padding:28px 18px;
+    margin:0; font-family: system-ui,-apple-system, Segoe UI, Roboto, sans-serif; color:var(--ink);
+    background: radial-gradient(1200px 600px at 15% 10%, rgba(96,165,250,.08), transparent),
+                radial-gradient(900px 500px at 85% 90%, rgba(244,114,182,.06), transparent),
+                linear-gradient(180deg, var(--bg), var(--bg2));
   }
 
-  .wrap{max-width:var(--maxw);width:100%;}
+  /* Top bar */
+  .top{position:sticky; top:0; z-index:50; backdrop-filter: blur(6px);
+       background:rgba(5,10,25,.55); border-bottom:1px solid rgba(255,255,255,.06)}
+  .nav{max-width:var(--max); margin:auto; padding:10px var(--pad); display:flex; gap:10px; align-items:center; justify-content:space-between}
+  .brand{font-weight:900; letter-spacing:.3px}
+  .tabs{display:flex; flex-wrap:wrap; gap:8px}
+  .tab{padding:10px 12px; border-radius:12px; font-weight:700; color:var(--muted); text-decoration:none; cursor:pointer; user-select:none}
+  .tab:hover{background:rgba(255,255,255,.05); color:var(--ink)}
+  .tab.active{background:linear-gradient(90deg,var(--a),var(--c)); color:#061020}
 
-  /* Header */
-  header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    margin-bottom:20px;
-  }
-  .brand{display:flex;gap:14px;align-items:center}
-  .profile{
-    width:84px;height:84px;border-radius:16px;overflow:hidden;border:3px solid rgba(255,255,255,0.06);
-    box-shadow: 0 12px 40px rgba(2,6,23,0.6);
-  }
-  .profile img{width:100%;height:100%;object-fit:cover;display:block}
-  .title-group{line-height:1}
-  .heading{font-size:18px;font-weight:800}
-  .sub{font-size:13px;color:var(--muted);margin-top:4px}
+  /* Views (single page per section) */
+  .stage{max-width:var(--max); margin:auto; padding:24px var(--pad) 40px}
+  .view{display:none; min-height:calc(100dvh - 72px); /* one full screen */}
+  .view.show{display:block; animation:fade .35s ease both}
+  @keyframes fade{from{opacity:0; transform:translate3d(0,8px,0)} to{opacity:1; transform:none}}
 
-  nav{display:flex;gap:10px}
-  .navlink{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:700}
-  .navlink:hover{background:var(--glass);color:white}
+  /* Shared blocks */
+  .h1{font-size:38px; margin:4px 0 10px; line-height:1.05}
+  .h2{font-size:26px; margin:0 0 8px}
+  .p{color:var(--muted); line-height:1.7; font-size:16px}
+  .grid{display:grid; gap:16px}
+  .card{background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06); border-radius:var(--radius); padding:18px; box-shadow:0 24px 60px rgba(2,6,23,.35)}
+  .cta{display:flex; gap:10px; flex-wrap:wrap}
+  .btn{background:linear-gradient(90deg,var(--a),var(--c)); color:#071022; border:0; border-radius:12px; padding:11px 14px; font-weight:800; text-decoration:none; cursor:pointer}
+  .btn.ghost{background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,.12)}
+  .spacer{height:16px}
+  .chunk{margin:22px 0}
 
-  /* CTA */
-  .cta{display:flex;gap:10px;align-items:center}
-  .btn{background:linear-gradient(90deg,var(--accent-a),var(--accent-c));color:#071026;padding:10px 14px;border-radius:12px;border:0;font-weight:800;cursor:pointer;text-decoration:none}
-  .btn.ghost{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04)}
+  /* Hero chips */
+  .chips{display:flex; gap:8px; flex-wrap:wrap}
+  .chip{background:linear-gradient(90deg, rgba(255,255,255,.07), transparent); padding:8px 10px; border-radius:999px; font-weight:700; color:var(--ink); border:1px solid rgba(255,255,255,.06)}
 
-  /* Hero */
-  .hero{
-    display:grid;
-    grid-template-columns:1fr 420px;
-    gap:22px;
-    align-items:start;
-    margin-bottom:18px;
-  }
-  @media (max-width:1000px){ .hero{grid-template-columns:1fr} .hide-mobile{display:none} }
+  /* Lists */
+  .list{display:grid; gap:12px}
+  .row{display:flex; gap:12px; align-items:flex-start}
+  .ico{inline-size:42px; block-size:42px; border-radius:10px; display:grid; place-items:center; font-weight:900; color:#061020}
+  .bgA{background:linear-gradient(90deg,var(--a),#a78bfa)}
+  .bgB{background:linear-gradient(90deg,var(--b),#fca5a5)}
+  .bgC{background:linear-gradient(90deg,var(--c),var(--d))}
 
-  .card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:var(--radius);
-    padding:20px;
-    border:1px solid rgba(255,255,255,0.03);
-    box-shadow: 0 20px 50px rgba(2,6,23,0.45);
-  }
-
-  .lead h1{margin:0;font-size:30px;line-height:1.02}
-  .lead p{margin:12px 0 0 0;color:var(--muted);font-size:15px}
-
-  .hero-visual{
-    height:420px;border-radius:12px;overflow:hidden;position:relative;
-    display:flex;flex-direction:column;justify-content:space-between;padding:18px;
-    background:
-      radial-gradient(600px 200px at 10% 10%, rgba(96,165,250,0.06), transparent),
-      radial-gradient(500px 200px at 90% 90%, rgba(244,114,182,0.04), transparent);
-  }
-  .hero-visual img{width:100%;height:260px;object-fit:cover;border-radius:10px}
-  .hero-visual .meta{display:flex;justify-content:space-between;align-items:center}
-
-  .stats{display:flex;gap:10px;margin-top:10px}
-  .stat{background:rgba(0,0,0,0.14);padding:12px;border-radius:10px;text-align:center;min-width:92px}
-  .stat strong{display:block;font-size:18px;color:white}
-
-  /* About & Services */
-  .two-col{display:grid;grid-template-columns:1fr 420px;gap:18px}
-  @media (max-width:1000px){ .two-col{grid-template-columns:1fr} }
-  .skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-  .skill{background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);padding:8px 10px;border-radius:10px;font-weight:700;color:var(--muted);font-size:13px}
-
-  .services{display:flex;flex-direction:column;gap:12px}
-  .service{display:flex;gap:12px;align-items:flex-start}
-  .ico{width:56px;height:56;border-radius:10px;display:grid;place-items:center;font-weight:800;color:#062038}
-  .s1{background:linear-gradient(90deg,var(--accent-a),#a78bfa)}
-  .s2{background:linear-gradient(90deg,var(--accent-b),#fca5a5)}
-  .s3{background:linear-gradient(90deg,var(--accent-c),#fcd34d)}
-
-  /* Portfolio */
-  .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
-  @media (max-width:1000px){ .portfolio-grid{grid-template-columns:repeat(2,1fr)} }
-  @media (max-width:640px){ .portfolio-grid{grid-template-columns:1fr} }
-
-  .project{border-radius:12px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)}
-  .project img{width:100%;height:180px;object-fit:cover;display:block}
-  .project .meta{padding:12px}
-  .project h4{margin:0 0 6px 0}
-  .project p{margin:0;color:var(--muted);font-size:13px}
+  /* Portfolio grid */
+  .portfolio{grid-template-columns:repeat(3,1fr)}
+  .project img{width:100%; height:180px; object-fit:cover; border-radius:12px; display:block; border:1px solid rgba(255,255,255,.06)}
+  @media (max-width:1000px){ .portfolio{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:640px){ .portfolio{grid-template-columns:1fr} }
 
   /* Certificates */
-  .cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
-  @media (max-width:1000px){ .cert-grid{grid-template-columns:repeat(2,1fr)} }
-  @media (max-width:640px){ .cert-grid{grid-template-columns:1fr} }
-  .cert{display:flex;gap:12px;align-items:center;padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.03)}
-  .cert img{width:140px;height:96px;object-fit:cover;border-radius:6px}
+  .certs{grid-template-columns:repeat(3,1fr)}
+  .cert{display:flex; flex-direction:column; gap:10px}
+  .cert img{width:100%; height:auto; border-radius:12px; border:1px solid rgba(255,255,255,.08); display:block}
+  @media (max-width:1000px){ .certs{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:640px){ .certs{grid-template-columns:1fr} }
 
-  /* Testimonials */
-  .testi{display:flex;flex-direction:column;gap:12px}
-  .bubble{background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  /* Skills bars */
+  .bar{height:14px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
+  .fill{height:100%; width:0; border-radius:inherit; background:linear-gradient(90deg,var(--a),var(--c)); transform:translateZ(0); transition:width 900ms cubic-bezier(.2,.9,.2,1)}
+
+  /* Tiny charts (SVG) */
+  .chart{width:100%; height:220px; display:block; background:rgba(255,255,255,.03); border-radius:12px; border:1px solid rgba(255,255,255,.06)}
 
   /* Contact */
-  .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:16px;margin-top:12px}
-  @media (max-width:1000px){ .contact-grid{grid-template-columns:1fr} }
-
-  .whatsapp{
-    display:inline-flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:linear-gradient(90deg,#25D366,#128C7E);color:#042017;font-weight:800;border:0;text-decoration:none;
-  }
-
-  footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px;padding:18px 0}
-
-  /* small transitions */
-  .fade{opacity:0;transform:translateY(10px);transition:all 560ms cubic-bezier(.2,.9,.2,1);}
-  .in{opacity:1;transform:none;}
-  .hover-lift{transition:transform 220ms ease,box-shadow 220ms ease}
-  .hover-lift:hover{transform:translateY(-6px);box-shadow:0 30px 60px rgba(2,6,23,0.55)}
+  .form{display:grid; gap:10px}
+  .in{padding:12px 12px; border-radius:12px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); color:var(--ink)}
+  .foot{padding:22px; text-align:center; color:var(--muted)}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <!-- Header -->
-    <header>
-      <div class="brand">
-        <div class="profile">
-          <!-- actual image URL (real photo) -->
-          <img src="https://picsum.photos/seed/pranjal_profile/800/800" alt="Pranjal Shrivastav">
-        </div>
-        <div class="title-group">
-          <div class="heading">Pranjal Shrivastav</div>
-          <div class="sub">Freelance Web Developer • Graphic Designer • Editor — Crafting visually stunning designs and building powerful responsive websites.</div>
+
+<!-- Top / Nav -->
+<div class="top">
+  <div class="nav">
+    <div class="brand">Pranjal Shrivastav</div>
+    <div class="tabs" id="tabs">
+      <a class="tab active" data-view="home">Home</a>
+      <a class="tab" data-view="about">About</a>
+      <a class="tab" data-view="skills">Skills</a>
+      <a class="tab" data-view="projects">Projects</a>
+      <a class="tab" data-view="certificates">Certificates</a>
+      <a class="tab" data-view="contact">Contact</a>
+    </div>
+  </div>
+</div>
+
+<!-- Stage -->
+<main class="stage">
+
+  <!-- HOME -->
+  <section id="home" class="view show">
+    <div class="card">
+      <div class="h1">Freelance Web Developer • Graphic Designer • Editor</div>
+      <p class="p">
+        I build fast, responsive websites and craft standout visuals for creators and brands.
+        3+ years working with influencers, e-commerce, and direct clients — delivering clean code,
+        bold design, and smooth edits that perform.
+      </p>
+
+      <div class="chunk">
+        <div class="chips">
+          <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span>
+          <span class="chip">Photoshop</span><span class="chip">Illustrator</span>
+          <span class="chip">Premiere Pro</span><span class="chip">After Effects</span>
+          <span class="chip">UI/UX</span><span class="chip">Branding</span>
         </div>
       </div>
-
-      <nav>
-        <a class="navlink" href="#about">About</a>
-        <a class="navlink" href="#services">Services</a>
-        <a class="navlink" href="#portfolio">Portfolio</a>
-        <a class="navlink" href="#certificates">Certificates</a>
-        <a class="navlink" href="#contact">Contact</a>
-      </nav>
 
       <div class="cta">
         <a class="btn" href="https://wa.me/918178565494" target="_blank" rel="noopener">Message on WhatsApp</a>
+        <a class="btn ghost" data-view="projects">See Projects</a>
       </div>
-    </header>
+    </div>
 
-    <!-- HERO -->
-    <section class="hero">
-      <div class="card lead fade hover-lift">
-        <h1>Crafting visually stunning designs and building powerful, responsive websites.</h1>
-        <p>I’m <strong>Pranjal Shrivastav</strong> — a freelance web developer, graphic designer, and video/photo editor with 3+ years experience delivering premium visuals and high-performing frontends for influencers, e-commerce brands, and direct clients.</p>
+    <div class="spacer"></div>
 
-        <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;">
-          <a class="btn" href="https://wa.me/918178565494" target="_blank">Hire me on WhatsApp</a>
-          <a class="btn ghost" href="#portfolio">View work</a>
-        </div>
-
-        <div class="stats" style="margin-top:18px">
-          <div class="stat">
-            <strong>3+ yrs</strong><span class="small">Experience</span>
-          </div>
-          <div class="stat">
-            <strong>120+</strong><span class="small">Designs & Edits</span>
-          </div>
-          <div class="stat">
-            <strong>50+</strong><span class="small">Web Pages</span>
-          </div>
-        </div>
+    <div class="grid portfolio">
+      <div class="card project">
+        <img src="projects-01.jpg" alt="E-commerce storefront (sample visual)">
+        <div class="h2">Nova E-Store Frontend</div>
+        <p class="p">Product-focused storefront with snappy filtering, responsive cards and compressed media for fast loads.</p>
       </div>
+      <div class="card project">
+        <img src="projects-02.jpg" alt="Brand kit visuals">
+        <div class="h2">Influencer Brand Kit</div>
+        <p class="p">Logo, palette, typography and social templates for consistent cross-platform identity.</p>
+      </div>
+      <div class="card project">
+        <img src="projects-03.jpg" alt="Promo video visual">
+        <div class="h2">Launch Promo Edit</div>
+        <p class="p">60-second edits with motion graphics and color grading to highlight key features.</p>
+      </div>
+    </div>
+  </section>
 
-      <aside class="card hero-visual fade hide-mobile hover-lift">
-        <img src="https://picsum.photos/seed/hero_visual/1400/700" alt="Visual">
-        <div class="meta">
-          <div>
-            <div style="font-weight:800">Primary Skills</div>
-            <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-              <div class="skill">HTML</div><div class="skill">CSS</div><div class="skill">JavaScript</div><div class="skill">Photoshop</div>
-            </div>
-          </div>
-          <div style="text-align:right">
-            <div class="small">Contact</div>
-            <div style="font-weight:800;margin-top:6px">+91 8178565494</div>
-            <div class="small">pranjalshrivastav5@gmail.com</div>
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <!-- ABOUT & SERVICES -->
-    <section id="about" class="card fade hover-lift">
-      <div class="two-col">
-        <div>
-          <h3 style="margin:0 0 8px 0">About Me</h3>
-          <p class="small" style="margin:0 0 12px 0;color:var(--muted)">
-            I blend creative design with clean code. From polished brand identities to responsive websites and cinematic video edits, I bring ideas to life with attention to detail and fast delivery. I enjoy collaborating with creators, influencers, and businesses to make their content and platforms stand out.
-          </p>
-
-          <div>
-            <div class="small">Skills & Tools (extensive)</div>
-            <div class="skills" style="margin-top:10px">
-              <!-- a long, impressive list -->
-              <div class="skill">HTML5</div><div class="skill">CSS3</div><div class="skill">JavaScript (ES6+)</div><div class="skill">React.js</div>
-              <div class="skill">Responsive Design</div><div class="skill">UI/UX Design</div><div class="skill">Figma</div><div class="skill">Photoshop</div>
-              <div class="skill">Illustrator</div><div class="skill">Premiere Pro</div><div class="skill">After Effects</div><div class="skill">VS Code</div>
-              <div class="skill">Git & GitHub</div><div class="skill">SEO Basics</div><div class="skill">Performance Optimization</div><div class="skill">Color Grading</div>
-              <div class="skill">Motion Graphics</div><div class="skill">Brand Identity</div><div class="skill">E-commerce Frontends</div><div class="skill">Landing Pages</div>
-              <div class="skill">Accessibility (A11y)</div><div class="skill">Responsive Images</div><div class="skill">Content Strategy</div><div class="skill">Social Media Creatives</div>
-              <div class="skill">Photo Retouching</div><div class="skill">Video Editing</div><div class="skill">Animation</div><div class="skill">AI Tools for Design</div>
-              <div class="skill">Cybersecurity Essentials</div><div class="skill">Shell Basics</div><div class="skill">Playing Guitar</div><div class="skill">Playing Piano</div>
-              <div class="skill">Singing</div><div class="skill">Cooking</div><div class="skill">Problem Solving</div><div class="skill">Client Communication</div>
-              <div class="skill">Time Management</div><div class="skill">Rapid Prototyping</div><div class="skill">Conceptual Thinking</div><div class="skill">Critical Feedback</div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h4 style="margin:0 0 8px 0">Services I Offer</h4>
-          <div class="services">
-            <div class="service card hover-lift">
-              <div class="ico s1">W</div>
+  <!-- ABOUT -->
+  <section id="about" class="view">
+    <div class="grid" style="grid-template-columns:1.2fr .8fr">
+      <div class="card">
+        <div class="h2">About Me</div>
+        <p class="p">
+          I’m Pranjal Shrivastav — a developer/designer who loves turning raw ideas into polished
+          experiences. I mix solid frontend engineering with strong visual taste. I enjoy fast,
+          collaborative builds and clear communication.
+        </p>
+        <div class="chunk">
+          <div class="h2">Highlights</div>
+          <div class="list">
+            <div class="row">
+              <div class="ico bgA">★</div>
               <div>
-                <strong>Web Development</strong>
-                <div class="small">Responsive, fast, and SEO-friendly websites using modern HTML/CSS/JS. Small-business sites, landing pages, and e-commerce frontends.</div>
+                <strong>Performance-first mindset</strong>
+                <div class="p">Images optimized, bundles trimmed, GPU-accelerated transitions — smooth on low-end devices.</div>
               </div>
             </div>
-
-            <div class="service card hover-lift">
-              <div class="ico s2">D</div>
+            <div class="row">
+              <div class="ico bgB">⚙</div>
               <div>
-                <strong>Graphic Design & Branding</strong>
-                <div class="small">Logos, brand kits, social media templates, posters, and marketing creatives with consistent visual language.</div>
+                <strong>Design to Dev</strong>
+                <div class="p">Owns the whole pipeline: concept → wireframe → high-fidelity → production-ready HTML/CSS/JS.</div>
               </div>
             </div>
-
-            <div class="service card hover-lift">
-              <div class="ico s3">E</div>
+            <div class="row">
+              <div class="ico bgC">✓</div>
               <div>
-                <strong>Photo & Video Editing</strong>
-                <div class="small">Professional retouching, color grading, promotional videos and attention-grabbing reels for creators and brands.</div>
+                <strong>Results</strong>
+                <div class="p">Projects emphasize clarity, conversion and accessibility (A11y) with measurable load-time wins.</div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div style="margin-top:12px">
-            <a class="btn" href="#portfolio">Explore Projects</a>
-            <a class="btn ghost" href="mailto:pranjalshrivastav5@gmail.com" style="margin-left:8px">Email me</a>
-          </div>
+        <div class="chunk">
+          <div class="h2">Extra Achievements</div>
+          <ul class="p" style="margin:0 0 0 18px">
+            <li>Top 5% — National Web Design Challenge (concept showcase)</li>
+            <li>Invited mentor — Campus Creator Bootcamp (workflows & branding)</li>
+            <li>Community speaker — Frontend performance & visual consistency</li>
+          </ul>
         </div>
       </div>
-    </section>
 
-    <!-- PORTFOLIO -->
-    <section id="portfolio" class="card fade hover-lift">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h3 style="margin:0">Selected Projects</h3>
-        <div class="small">Realistic professional projects showcasing skills & results</div>
+      <div class="card">
+        <div class="h2">Growth (2019 → 2025)</div>
+        <!-- Lightweight SVG bar chart -->
+        <svg class="chart" viewBox="0 0 600 220" aria-label="Growth chart">
+          <defs>
+            <linearGradient id="g" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#f472b6"/>
+            </linearGradient>
+          </defs>
+          <!-- axes -->
+          <line x1="60" y1="180" x2="560" y2="180" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+          <line x1="60" y1="30" x2="60" y2="180" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+          <!-- labels -->
+          <g fill="rgba(255,255,255,.7)" font-size="12">
+            <text x="90"  y="200">2019</text>
+            <text x="190" y="200">2020</text>
+            <text x="290" y="200">2021</text>
+            <text x="390" y="200">2022</text>
+            <text x="490" y="200">2023–25</text>
+          </g>
+          <!-- bars -->
+          <rect x="90"  y="140" width="40" height="40"  rx="8" fill="url(#g)"/>
+          <rect x="190" y="120" width="40" height="60"  rx="8" fill="url(#g)"/>
+          <rect x="290" y="92"  width="40" height="88"  rx="8" fill="url(#g)"/>
+          <rect x="390" y="68"  width="40" height="112" rx="8" fill="url(#g)"/>
+          <rect x="490" y="40"  width="40" height="140" rx="8" fill="url(#g)"/>
+        </svg>
+        <p class="p" style="margin-top:10px">
+          Steady improvement in code quality, visual systems, and delivery speed driven by real client work.
+        </p>
       </div>
+    </div>
+  </section>
 
-      <div class="portfolio-grid">
-        <!-- Project 1 -->
-        <div class="project hover-lift">
-          <img src="https://picsum.photos/seed/project1/1000/600" alt="E-commerce UI">
-          <div class="meta">
-            <h4>Nova E-Store — Responsive E-commerce Frontend</h4>
-            <p>Developed a fast, responsive product-centric storefront. Implemented product filters, quick view, and optimized images to reduce load time by 42% (simulated/illustrative).</p>
-            <div style="margin-top:8px"><span class="small">HTML • CSS • JS • Performance</span></div>
-          </div>
-        </div>
-
-        <!-- Project 2 -->
-        <div class="project hover-lift">
-          <img src="https://picsum.photos/seed/project2/1000/600" alt="Branding">
-          <div class="meta">
-            <h4>Riya Creative — Influencer Branding Kit</h4>
-            <p>Complete brand identity system including logo, color palette, Instagram templates and highlight covers to increase visual consistency across channels.</p>
-            <div style="margin-top:8px"><span class="small">Illustrator • Photoshop • Branding</span></div>
-          </div>
-        </div>
-
-        <!-- Project 3 -->
-        <div class="project hover-lift">
-          <img src="https://picsum.photos/seed/project3/1000/600" alt="Promo Video">
-          <div class="meta">
-            <h4>Launch Promo — Cinematic Product Video</h4>
-            <p>Edited a 60s promotional video with motion graphics and color grading to highlight product features and drive pre-launch sign-ups.</p>
-            <div style="margin-top:8px"><span class="small">Premiere Pro • After Effects</span></div>
-          </div>
-        </div>
-
-        <!-- Project 4 -->
-        <div class="project hover-lift">
-          <img src="https://picsum.photos/seed/project4/1000/600" alt="Portfolio site">
-          <div class="meta">
-            <h4>Portfolio Platform — Personal Portfolio Design</h4>
-            <p>Designed and built a modern responsive portfolio that showcases works, contact CTA and blog teasers with an emphasis on accessibility and performance.</p>
-            <div style="margin-top:8px"><span class="small">Responsive • UI/UX</span></div>
-          </div>
-        </div>
-
-        <!-- Project 5 -->
-        <div class="project hover-lift">
-          <img src="https://picsum.photos/seed/project5/1000/600" alt="Social campaign">
-          <div class="meta">
-            <h4>Social Campaign — High Engagement Creatives</h4>
-            <p>Designed a set of static and animated creatives for a campaign, optimized for Instagram & YouTube Shorts; focused on visual hooks & quick cuts.</p>
-            <div style="margin-top:8px"><span class="small">Graphics • Motion</span></div>
-          </div>
-        </div>
-
-        <!-- Project 6 -->
-        <div class="project hover-lift">
-          <img src="https://picsum.photos/seed/project6/1000/600" alt="UI UX">
-          <div class="meta">
-            <h4>App UI/UX Concept — Accessible Interface</h4>
-            <p>High-fidelity prototype focusing on user flows, micro-interactions and accessible components for improved retention (concept project).</p>
-            <div style="margin-top:8px"><span class="small">Figma • UX</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CERTIFICATES -->
-    <section id="certificates" class="card fade hover-lift">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h3 style="margin:0">Certificates & Awards</h3>
-        <div class="small">Professional recognitions and competition awards</div>
-      </div>
-
-      <div class="cert-grid">
-        <div class="cert hover-lift">
-          <img src="https://picsum.photos/seed/cert1/600/400" alt="Certificate 1">
-          <div>
-            <strong>2nd Position — West Delhi Photo Editing Contest 2023</strong>
-            <div class="small" style="margin-top:6px">Recognized by the Photoworks Association for creative retouching, color grading and composition. Demonstrated advanced photo-editing techniques.</div>
-          </div>
-        </div>
-
-        <div class="cert hover-lift">
-          <img src="https://picsum.photos/seed/cert2/600/400" alt="Certificate 2">
-          <div>
-            <strong>Winner — Creative Cuts Challenge 2024</strong>
-            <div class="small" style="margin-top:6px">Awarded for best storytelling and editorial cuts in promotional video entries.</div>
-          </div>
-        </div>
-
-        <div class="cert hover-lift">
-          <img src="https://picsum.photos/seed/cert3/600/400" alt="Certificate 3">
-          <div>
-            <strong>Excellence in Design — Delhi Creatives Awards 2024</strong>
-            <div class="small" style="margin-top:6px">Honoured for outstanding poster and branding work during the annual creatives showcase.</div>
-          </div>
-        </div>
-
-        <div class="cert hover-lift">
-          <img src="https://picsum.photos/seed/cert4/600/400" alt="Certificate 4">
-          <div>
-            <strong>Top Performer — Delhi Web Innovators 2023</strong>
-            <div class="small" style="margin-top:6px">Recognized for performance-driven and accessible landing page designs (award description illustrative).</div>
-          </div>
-        </div>
-
-        <div class="cert hover-lift">
-          <img src="https://picsum.photos/seed/cert5/600/400" alt="Certificate 5">
-          <div>
-            <strong>Best Interface Design — India Design Summit 2024</strong>
-            <div class="small" style="margin-top:6px">Awarded for intuitive interaction design and accessibility-focused prototypes.</div>
-          </div>
-        </div>
-
-        <div class="cert hover-lift">
-          <img src="https://picsum.photos/seed/cert6/600/400" alt="Certificate 6">
-          <div>
-            <strong>Innovation Award — AI Hackathon Delhi 2024</strong>
-            <div class="small" style="margin-top:6px">Recognized for a prototype improving content optimization workflows using ML techniques (conceptual award).</div>
-          </div>
-        </div>
-      </div>
-         </section>
-
-    <!-- TESTIMONIALS -->
-    <section class="card fade hover-lift">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h3 style="margin:0">Testimonials</h3>
-        <div class="small">Selected client feedback</div>
-      </div>
-
-      <div class="testi" style="margin-top:12px">
-        <div class="bubble">
-          <strong>Riya — Content Creator</strong>
-          <div class="small">"Pranjal transformed my channel visuals — my engagement rose 40% after the new templates and reels. Fast, talented, and reliable."</div>
-        </div>
-
-        <div class="bubble">
-          <strong>Sahil — E-commerce Owner</strong>
-          <div class="small">"Excellent frontend work and transparent communication. The product pages perform well on mobile and desktop."</div>
-        </div>
-
-        <div class="bubble">
-          <strong>Neha — Startup Founder</strong>
-          <div class="small">"Delivered branding & a promo video under a tight deadline. Professional, creative and punctual."</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="card fade hover-lift">
-      <h3 style="margin:0 0 12px 0">Contact</h3>
-
-      <div class="contact-grid">
+  <!-- SKILLS -->
+  <section id="skills" class="view">
+    <div class="card">
+      <div class="h2">Core & Creative Skills</div>
+      <div class="grid" style="grid-template-columns:1fr 1fr; align-items:start">
         <div>
-          <form id="contactForm" style="display:flex;flex-direction:column;gap:8px">
-            <input id="name" type="text" placeholder="Your name" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
-            <input id="email" type="email" placeholder="Your email" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
-            <textarea id="message" rows="5" placeholder="Project brief / message" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit"></textarea>
-
-            <div style="display:flex;gap:8px">
-              <button class="btn" type="submit">Send message</button>
-              <a class="btn ghost" href="mailto:pranjalshrivastav5@gmail.com">Email me</a>
-            </div>
-
-            <div class="small" style="margin-top:8px">Or message directly on WhatsApp</div>
-          </form>
-        </div>
-
-        <aside class="card" style="padding:16px">
-          <div style="font-weight:800">Contact Info</div>
-          <div style="margin-top:8px" class="small">Phone: <a href="tel:+918178565494" style="color:var(--accent-a);text-decoration:none">+91 8178565494</a></div>
-          <div class="small">Email: <a href="mailto:pranjalshrivastav5@gmail.com" style="color:var(--accent-a);text-decoration:none">pranjalshrivastav5@gmail.com</a></div>
-
-          <div style="margin-top:12px">
-            <a class="whatsapp" href="https://wa.me/918178565494" target="_blank" rel="noopener">Message on WhatsApp</a>
+          <div class="chunk">
+            <strong>HTML5 / Semantics</strong><div class="bar"><div class="fill" style="--w:96%"></div></div>
           </div>
-
-          <div style="margin-top:12px" class="small">Available for freelance work — open to short-term and long-term projects.</div>
-        </aside>
+          <div class="chunk">
+            <strong>CSS / Responsive</strong><div class="bar"><div class="fill" style="--w:94%"></div></div>
+          </div>
+          <div class="chunk">
+            <strong>JavaScript (ES6+)</strong><div class="bar"><div class="fill" style="--w:88%"></div></div>
+          </div>
+          <div class="chunk">
+            <strong>UI/UX & Figma</strong><div class="bar"><div class="fill" style="--w:90%"></div></div>
+          </div>
+          <div class="chunk">
+            <strong>Performance / A11y</strong><div class="bar"><div class="fill" style="--w:86%"></div></div>
+          </div>
+        </div>
+        <div>
+          <div class="chunk">
+            <strong>Photoshop</strong><div class="bar"><div class="fill" style="--w:92%"></div></div>
+          </div>
+          <div class="chunk">
+            <strong>Illustrator</strong><div class="bar"><div class="fill" style="--w:84%"></div></div>
+          </div>
+          <div class="chunk">
+            <strong>Premiere Pro</strong><div class="bar"><div class="fill" style="--w:90%"></div></div>
+          </div>
+          <div class="chunk">
+            <strong>After Effects</strong><div class="bar"><div class="fill" style="--w:82%"></div></div>
+          </div>
+          <div class="chunk">
+            <strong>Branding / Motion</strong><div class="bar"><div class="fill" style="--w:85%"></div></div>
+          </div>
+        </div>
       </div>
-    </section>
 
-    <footer>
-      © <span id="year"></span> Pranjal Shrivastav — Freelance Web Developer | Graphic Designer | Editor
-    </footer>
-  </div>
+      <div class="spacer"></div>
 
+      <div class="grid" style="grid-template-columns:1fr 1fr">
+        <div class="card">
+          <div class="h2">Soft Skills</div>
+          <ul class="p" style="margin:0 0 0 18px">
+            <li>Client communication & clarity</li>
+            <li>Rapid prototyping & iteration</li>
+            <li>Problem solving under deadlines</li>
+            <li>Attention to detail & consistency</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="h2">Tools</div>
+          <div class="chips">
+            <span class="chip">VS Code</span><span class="chip">Git & GitHub</span><span class="chip">Figma</span>
+            <span class="chip">Photoshop</span><span class="chip">Illustrator</span><span class="chip">Premiere Pro</span>
+            <span class="chip">After Effects</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="view">
+    <div class="h2">Selected Projects</div>
+    <div class="grid portfolio">
+      <div class="card project">
+        <img src="projects-01.jpg" alt="E-commerce UI">
+        <div class="h2" style="font-size:18px">Responsive E-commerce Frontend</div>
+        <p class="p">Filters, quick view, and compressed assets for quick time-to-interactive.</p>
+      </div>
+      <div class="card project">
+        <img src="projects-02.jpg" alt="Brand kit">
+        <div class="h2" style="font-size:18px">Influencer Brand System</div>
+        <p class="p">Logo, palette, templates for cohesive Instagram & YouTube presence.</p>
+      </div>
+      <div class="card project">
+        <img src="projects-03.jpg" alt="Promo edit">
+        <div class="h2" style="font-size:18px">Product Launch Promo</div>
+        <p class="p">Motion graphics + color grading for a sharp 60-sec story.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATES -->
+  <section id="certificates" class="view">
+    <div class="h2">Certificates & Awards</div>
+    <div class="grid certs">
+      <div class="card cert">
+        <img src="cyber-security-olympiad.jpg" alt="Certificate — 1st Place Cyber Security Olympiad">
+        <strong>1st Place — Cyber Security Olympiad</strong>
+        <p class="p">Awarded for advanced problem solving and security analysis. Recognized by the organizing committee for precise reporting and incident response understanding.</p>
+      </div>
+      <div class="card cert">
+        <img src="html-css-expertise-quiz.jpg" alt="Certificate — 6th Place HTML & CSS Expertise Quiz (India)">
+        <strong>6th Place — HTML &amp; CSS Expertise Quiz (India)</strong>
+        <p class="p">Demonstrated strong knowledge of modern semantic HTML, responsive CSS, and accessibility-friendly patterns in a timed challenge.</p>
+      </div>
+      <div class="card cert">
+        <img src="delhi-graphic-olympiad.jpg" alt="Certificate — 7th Place Delhi Graphic Designing Olympiad">
+        <strong>7th Place — Delhi Graphic Designing Olympiad</strong>
+        <p class="p">Honoured for composition, color choices, and brand-ready deliverables in a competitive design showcase.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="view">
+    <div class="grid" style="grid-template-columns:1.1fr .9fr">
+      <div class="card">
+        <div class="h2">Let’s build something great</div>
+        <p class="p">Available for freelance work — short or long term. Quick responses, clear estimates, and punctual delivery.</p>
+        <form id="contactForm" class="form" autocomplete="on">
+          <input class="in" id="name" type="text" placeholder="Your name" required>
+          <input class="in" id="email" type="email" placeholder="Your email" required>
+          <textarea class="in" id="message" rows="6" placeholder="Project brief / message" required></textarea>
+          <div class="cta">
+            <button type="submit" class="btn">Send message</button>
+            <a class="btn ghost" href="mailto:pranjalshrivastav5@gmail.com">Email directly</a>
+          </div>
+        </form>
+      </div>
+      <div class="card">
+        <div class="h2">Contact Info</div>
+        <p class="p" style="margin:6px 0 12px">Phone: <a href="tel:+918178565494" style="color:var(--a); text-decoration:none">+91 8178565494</a><br>
+        Email: <a href="mailto:pranjalshrivastav5@gmail.com" style="color:var(--a); text-decoration:none">pranjalshrivastav5@gmail.com</a></p>
+        <a class="btn" href="https://wa.me/918178565494" target="_blank" rel="noopener">Message on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="foot">© <span id="year"></span> Pranjal Shrivastav — Web Developer • Graphic Designer • Editor</div>
+
+<!-- Ultra-light JS: section router + minimal animations + form mailto -->
 <script>
-  // reveal elements on scroll
-  document.addEventListener('DOMContentLoaded', () => {
-    const els = document.querySelectorAll('.fade');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }});
-    }, {threshold: 0.08});
-    els.forEach(el => io.observe(el));
+  (function(){
+    const views = Array.from(document.querySelectorAll('.view'));
+    const tabs  = Array.from(document.querySelectorAll('.tab'));
+    const stage = document.querySelector('.stage');
 
+    // show one view only
+    function show(id){
+      views.forEach(v => v.classList.toggle('show', v.id === id));
+      tabs.forEach(t => t.classList.toggle('active', t.dataset.view === id));
+      // scroll to top of stage, no other section visible
+      stage.scrollIntoView({behavior:'instant', block:'start'});
+      // animate skill bars when skills view appears
+      if(id==='skills'){
+        requestAnimationFrame(()=>{
+          document.querySelectorAll('#skills .fill').forEach(el=>{
+            const w = el.style.getPropertyValue('--w') || '90%';
+            el.style.width = w;
+          });
+        });
+      }
+    }
+
+    // tab clicks
+    tabs.forEach(t=>{
+      t.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const id = t.dataset.view;
+        history.replaceState(null, '', '#' + id);
+        show(id);
+      });
+    });
+
+    // hash router (direct links/bookmarks)
+    function route(){
+      const id = location.hash.replace('#','') || 'home';
+      show(id);
+    }
+    window.addEventListener('hashchange', route);
+    route();
+
+    // footer year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // contact form: mailto fallback
+    // contact form -> mailto (no backend)
     const form = document.getElementById('contactForm');
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', function(e){
       e.preventDefault();
       const name = encodeURIComponent(document.getElementById('name').value.trim());
-      const email = encodeURIComponent(document.getElementById('email').value.trim());
-      const message = encodeURIComponent(document.getElementById('message').value.trim());
-      const subject = encodeURIComponent('Website Inquiry from ' + (name || 'Client'));
-      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-      window.location.href = `mailto:pranjalshrivastav5@gmail.com?subject=${subject}&body=${body}`;
+      const email= encodeURIComponent(document.getElementById('email').value.trim());
+      const msg  = encodeURIComponent(document.getElementById('message').value.trim());
+      const subject = encodeURIComponent('Portfolio Inquiry from ' + (name||'Client'));
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`);
+      location.href = `mailto:pranjalshrivastav5@gmail.com?subject=${subject}&body=${body}`;
     });
-  });
+
+// micro-optimization: set will-change on view container for smoother transitions
+    views.forEach(v => v.style.willChange = 'opacity, transform');
+  })();
 </script>
 </body>
 </html>
