@@ -55,7 +55,7 @@
             left: 0;
             width: 100%;
             height: calc(100vh - 80px);
-            overflow-y: auto;
+            overflow-y: scroll; /* Changed to scroll for better compatibility */
             padding: 40px;
             opacity: 0;
             transition: opacity 0.5s ease, transform 0.5s ease;
@@ -1222,6 +1222,10 @@
             <p>Let's collaborate to bring your ideas to life!</p>
             <p>I specialize in creating user-centric designs that not only look great but also perform exceptionally. My approach is collaborative, ensuring that every project aligns perfectly with client goals.</p>
             <p>With a keen eye for detail and a commitment to quality, I ensure every project is delivered on time and exceeds expectations.</p>
+            <p>Throughout my career, I've worked with a diverse range of clients, from startups to established businesses, helping them achieve their digital goals through innovative solutions.</p>
+            <p>My technical expertise is complemented by strong communication skills, allowing me to understand client needs and translate them into effective digital products.</p>
+            <p>I'm excited about the future of technology and how it can be leveraged to create meaningful impact in various industries.</p>
+            <p>Thank you for visiting my portfolio. I look forward to the opportunity to work with you!</p>
             <div class="achievements" data-aos="fade-up">
                 <div class="achievement">
                     <i class="fas fa-trophy"></i>
@@ -1246,7 +1250,7 @@
                 </div>
                 <div class="timeline-item">
                     <h3>2022</h3>
-                    <p>Expanded into UI/UX and graphic design, completing over 30 projects and building a strong strong foundation in creative technologies.</p>
+                    <p>Expanded into UI/UX and graphic design, completing over 30 projects and building a strong foundation in creative technologies.</p>
                 </div>
                 <div class="timeline-item">
                     <h3>2023</h3>
@@ -1578,13 +1582,15 @@
         AOS.init({ duration: 800, once: false, mirror: true });
 
         // Nav background on scroll
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('solid');
-            } else {
-                nav.classList.remove('solid');
-            }
+        document.querySelectorAll('section').forEach(sec => {
+            sec.addEventListener('scroll', () => {
+                const nav = document.querySelector('nav');
+                if (sec.scrollTop > 50) {
+                    nav.classList.add('solid');
+                } else {
+                    nav.classList.remove('solid');
+                }
+            });
         });
 
         // Hamburger menu
@@ -1636,6 +1642,8 @@
                             }, index * 100);
                         });
                     }
+                    // Reset scroll to top for new section
+                    targetSection.scrollTop = 0;
                 }, 50);
             }, 500);
         };
